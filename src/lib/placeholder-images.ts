@@ -13,7 +13,7 @@ export function getImageById(id: string): ImagePlaceholder | undefined {
     return PlaceHolderImages.find(img => img.id === id);
 }
 
-export function getImagesByVehicleId(vehicleId: number, vehicleType: string): ImagePlaceholder[] {
+export function getImagesByVehicleId(vehicleId: string, vehicleType: string): ImagePlaceholder[] {
     const prefix = `${vehicleType.toLowerCase()}-${vehicleId}`;
     return PlaceHolderImages.filter(img => img.id.startsWith(prefix));
 }
