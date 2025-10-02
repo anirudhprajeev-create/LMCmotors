@@ -1,0 +1,160 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A stylish sports car",
+      "imageUrl": "https://cdn.discordapp.com/attachments/1083757528749453394/1419316007859785811/IMG_1629.jpg?ex=68df2849&is=68ddd6c9&hm=52368f150fa4da3c6ca1d721533a32ad3506b4e26772be4d5e575e0b7e98fd2c&",
+      "imageHint": "sports car"
+    },
+    {
+      "id": "suv-1-a",
+      "description": "Front three-quarter view of a modern blue SUV on a city street",
+      "imageUrl": "https://images.unsplash.com/photo-1729487151745-ee59a51f81a0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxibHVlJTIwc3V2fGVufDB8fHx8MTc1OTI0MTM4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blue suv"
+    },
+    {
+      "id": "suv-1-b",
+      "description": "Interior dashboard view of a modern SUV",
+      "imageUrl": "https://images.unsplash.com/photo-1636763086471-9f29bc34ab9e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYXIlMjBpbnRlcmlvcnxlbnwwfHx8fDE3NTkyMjI2ODh8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "car interior"
+    },
+    {
+      "id": "suv-1-c",
+      "description": "Rear view of a modern blue SUV",
+      "imageUrl": "https://images.unsplash.com/photo-1652570645478-259547142d01?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxibHVlJTIwc3V2fGVufDB8fHx8MTc1OTI0MTM4Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "blue suv"
+    },
+    {
+      "id": "sedan-1-a",
+      "description": "Side profile of a sleek silver sedan",
+      "imageUrl": "https://images.unsplash.com/photo-1758822054256-01802e621172?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzaWx2ZXIlMjBzZWRhbnxlbnwwfHx8fDE3NTkxODcwOTd8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "silver sedan"
+    },
+    {
+      "id": "sedan-1-b",
+      "description": "Close up of a sedan's alloy wheel",
+      "imageUrl": "https://images.unsplash.com/photo-1724529011363-3f7eec698142?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYXIlMjB3aGVlbHxlbnwwfHx8fDE3NTkxOTEzMDF8MA&ixlibrb-4.1.0&q=80&w=1080",
+      "imageHint": "car wheel"
+    },
+    {
+      "id": "sedan-1-c",
+      "description": "Driver's seat and steering wheel of a silver sedan",
+      "imageUrl": "https://images.unsplash.com/photo-1547731269-e4073e054f12?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjYXIlMjBpbnRlcmlvcnxlbnwwfHx8fDE3NTkyMjI2ODh8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "car interior"
+    },
+    {
+      "id": "truck-1-a",
+      "description": "Red pickup truck parked in a scenic mountain landscape",
+      "imageUrl": "https://images.unsplash.com/photo-1627208875748-2f4aed577f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxyZWQlMjB0cnVja3xlbnwwfHx8fDE3NTkyNTkwMzh8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "red truck"
+    },
+    {
+      "id": "truck-1-b",
+      "description": "Truck bed of a red pickup truck",
+      "imageUrl": "https://images.unsplash.com/photo-1575516092328-522b5e8d3ec7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dHJ1Y2slMjBiZWR8ZW58MHx8fHwxNzU5MjAyNTQ0fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "truck bed"
+    },
+    {
+      "id": "truck-1-c",
+      "description": "Interior cabin of a red pickup truck",
+      "imageUrl": "https://images.unsplash.com/photo-1713980056465-1d8185690526?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0cnVjayUyMGludGVyaW9yfGVufDB8fHx8MTc1OTIwNDcwNHww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "truck interior"
+    },
+    {
+      "id": "suv-2-a",
+      "description": "White family SUV driving on a coastal road",
+      "imageUrl": "https://images.unsplash.com/photo-1684849311658-eba18b95ba9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3aGl0ZSUyMHN1dnxlbnwwfHx8fDE3NTkzMDA2NTV8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "white suv"
+    },
+    {
+      "id": "suv-2-b",
+      "description": "Spacious rear cargo area of a white SUV",
+      "imageUrl": "https://images.unsplash.com/photo-1662253273553-c89a3a26fad3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYXIlMjB0cnVua3xlbnwwfHx8fDE3NTkyNTc3NDB8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "car trunk"
+    },
+    {
+      "id": "suv-2-c",
+      "description": "Sunroof view from inside a white SUV",
+      "imageUrl": "https://images.unsplash.com/photo-1584301703856-f26a0f250421?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjYXIlMjBzdW5yb29mfGVufDB8fHx8MTc1OTI1NTQxMXww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "car sunroof"
+    },
+    {
+      "id": "sedan-2-a",
+      "description": "Black executive sedan parked in front of a modern building",
+      "imageUrl": "https://images.unsplash.com/photo-1591268682539-655794ef6134?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxibGFjayUyMHNlZGFufGVufDB8fHx8MTc1OTMwMDY1NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black sedan"
+    },
+    {
+      "id": "sedan-2-b",
+      "description": "Leather seats in the back of a black sedan",
+      "imageUrl": "https://images.unsplash.com/photo-1516774686443-598753d3ae26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsZWF0aGVyJTIwc2VhdHN8ZW58MHx8fHwxNzU5MjU3NzQwfDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "leather seats"
+    },
+    {
+      "id": "truck-2-a",
+      "description": "Gray heavy-duty truck on a construction site",
+      "imageUrl": "https://images.unsplash.com/photo-1634636208509-63bcd2a1b13f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxncmF5JTIwdHJ1Y2t8ZW58MHx8fHwxNzU5MjAyNTQ0fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "gray truck"
+    },
+    {
+      "id": "truck-2-b",
+      "description": "Close-up of the grille of a gray truck",
+      "imageUrl": "https://images.unsplash.com/photo-1551150441-3f3828204ef0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjYXIlMjBncmlsbGV8ZW58MHx8fHwxNzU5MjAyNTQ0fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "car grille"
+    },
+    {
+      "id": "sedan-3-a",
+      "description": "A vibrant red compact sedan, ideal for city driving.",
+      "imageUrl": "https://images.unsplash.com/photo-1658662160331-62f7e52e63de?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxyZWQlMjBzZWRhbnxlbnwwfHx8fDE3NTkzMDA2NTV8MA&ixlibrb-4.1.0&q=80&w=1080",
+      "imageHint": "red sedan"
+    },
+    {
+      "id": "sedan-3-b",
+      "description": "Digital dashboard of a red compact sedan.",
+      "imageUrl": "https://images.unsplash.com/photo-1485463611174-f302f6a5c1c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2FyJTIwZGFzaGJvYXJkfGVufDB8fHx8MTc1OTI5Mjg2N3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageHint": "car dashboard"
+    },
+    {
+      "id": "culture-1",
+      "description": "LMC Motors office",
+      "imageUrl": "https://images.unsplash.com/photo-1497215842964-222b430dc094?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvZmZpY2UlMjBzcGFjZXxlbnwwfHx8fDE3NTkzNTIzMzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "office space"
+    },
+    {
+      "id": "culture-2",
+      "description": "LMC Motors team photo",
+      "imageUrl": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx0ZWFtJTIwcGhvdG98ZW58MHx8fHwxNzU5MzA4OTkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team photo"
+    },
+    {
+      "id": "culture-3",
+      "description": "LMC Motors team photo",
+      "imageUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0ZWFtJTIwcGhvdG98ZW58MHx8fHwxNzU5MzA4OTkxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "team photo"
+    },
+    {
+      "id": "culture-4",
+      "description": "The modern office space at LMC Motors",
+      "imageUrl": "https://cdn.discordapp.com/attachments/1422543826865750016/1422543827306156126/JOyGbHu.png?ex=68de602e&is=68dd0eae&hm=c6944467daa1583a238fb7613344558ad07ad5bed1c4e2a8218410e3e86798fd&",
+      "imageHint": "office space"
+    },
+    {
+      "id": "culture-5",
+      "description": "LMC Motors Showroom",
+      "imageUrl": "https://cdn.discordapp.com/attachments/1265606473573208106/1422910312524546079/Generated_Image_October_01_2025_-_5_06PM.png?ex=68de63fe&is=68dd127e&hm=ab92d9e6cff6b57f1333c445802e4eaf52ceb81f272bb15b15d6a1a62db84f16&",
+      "imageHint": "car showroom"
+    },
+    {
+      "id": "culture-6",
+      "description": "A view of the clean and bright vehicle showroom",
+      "imageUrl": "https://images.unsplash.com/photo-1644749700856-a82a92828a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjYXIlMjBzaG93cm9vbXxlbnwwfHx8fDE3NTkzMTUwNzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "car showroom"
+    },
+    {
+      "id": "culture-7",
+      "description": "A view of the LMC Motors showroom",
+      "imageUrl": "https://cdn.discordapp.com/attachments/1418144470574305311/1418144470938943499/Killua_3_enh.jpg?ex=68ded9b5&is=68dd8835&hm=5a1c87e5c9a893c954072b4a02df2522c159fc9bbb9bf9ff9fe2317904706cc6&",
+      "imageHint": "car showroom"
+    }
+  ]
+}

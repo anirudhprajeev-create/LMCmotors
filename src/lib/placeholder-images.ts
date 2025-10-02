@@ -1,0 +1,19 @@
+import data from './placeholder-images.json';
+
+export type ImagePlaceholder = {
+  id: string;
+  description: string;
+  imageUrl: string;
+  imageHint: string;
+};
+
+export const PlaceHolderImages: ImagePlaceholder[] = data.placeholderImages;
+
+export function getImageById(id: string): ImagePlaceholder | undefined {
+    return PlaceHolderImages.find(img => img.id === id);
+}
+
+export function getImagesByVehicleId(vehicleId: number, vehicleType: string): ImagePlaceholder[] {
+    const prefix = `${vehicleType.toLowerCase()}-${vehicleId}`;
+    return PlaceHolderImages.filter(img => img.id.startsWith(prefix));
+}
