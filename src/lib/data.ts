@@ -1,63 +1,96 @@
 
+'use server';
 import type { Vehicle, GalleryImage, VehicleDataInput } from './types';
 import { unstable_noStore as noStore } from 'next/cache';
-import { vehicles as initialVehicles } from './vehicles';
-import placeholderImagesData from './placeholder-images.json';
+import { db } from './firebase';
+import { collection, doc, getDoc, getDocs, addDoc, updateDoc, deleteDoc, query, where, orderBy, limit, setDoc } from 'firebase/firestore';
 
-// In-memory data stores
-let vehicles: Vehicle[] = initialVehicles.map(v => ({
-    ...v,
-    imageUrl: placeholderImagesData.placeholderImages.find(img => img.id === v.image)?.imageUrl || ''
-}));
-let galleryImages: GalleryImage[] = placeholderImagesData.placeholderImages
-    .filter(img => img.id.startsWith('culture-'))
-    .map(img => ({ ...img }));
 
 // --- Vehicle Functions ---
 
 export async function fetchVehicles(filters?: { type?: string, price?: string }): Promise<Vehicle[]> {
     noStore();
-    let filteredVehicles = [...vehicles];
+    
+    const vehiclesCollection = collection(db, 'vehicles');
+    let vehicleQuery = query(vehiclesCollection, orderBy('make'));
 
+    const queryConstraints = [];
     if (filters?.type && filters.type !== 'all') {
-        filteredVehicles = filteredVehicles.filter(v => v.type === filters.type);
-    }
-
-    if (filters?.price && filters.price !== 'all') {
-        const [min, max] = filters.price.split('-').map(Number);
-        filteredVehicles = filteredVehicles.filter(v => {
-            if (max) {
-                return v.price >= min && v.price <= max;
-            }
-            return v.price >= min;
-        });
+        queryConstraints.push(where('type', '==', filters.type));
     }
     
-    return filteredVehicles;
+    if (filters?.price && filters.price !== 'all') {
+        const [min, max] = filters.price.split('-').map(Number);
+        queryConstraints.push(where('price', '>=', min));
+        if (max) {
+             queryConstraints.push(where('price', '<=', max));
+        }
+    }
+
+    if(queryConstraints.length > 0) {
+        // We need to re-add the orderBy when using where, but Firestore requires
+        // the first orderBy to be on the same field as the first where filter if it's a range filter.
+        // For simplicity here, we'll order by price if a price filter is applied.
+        if (filters?.price) {
+           vehicleQuery = query(vehiclesCollection, ...queryConstraints, orderBy('price'));
+        } else {
+           vehicleQuery = query(vehiclesCollection, ...queryConstraints, orderBy('make'));
+        }
+    }
+    
+    const querySnapshot = await getDocs(vehicleQuery);
+    const vehicles = querySnapshot.docs.map(doc => ({
+        id: parseInt(doc.id, 10),
+        ...doc.data()
+    })) as Vehicle[];
+    
+    return vehicles;
 }
 
 export async function fetchVehicleById(id: string | number): Promise<Vehicle | null> {
     noStore();
-    const vehicleId = typeof id === 'string' ? parseInt(id) : id;
-    const vehicle = vehicles.find(v => v.id === vehicleId);
-    return vehicle || null;
+    const vehicleId = typeof id === 'string' ? id : id.toString();
+    const vehicleDocRef = doc(db, 'vehicles', vehicleId);
+    const vehicleSnapshot = await getDoc(vehicleDocRef);
+
+    if (!vehicleSnapshot.exists()) {
+        return null;
+    }
+    
+    return { id: parseInt(vehicleSnapshot.id, 10), ...vehicleSnapshot.data() } as Vehicle;
 }
 
 export async function fetchAllVehicleIds() {
     noStore();
-    return vehicles.map(v => ({ id: v.id.toString() }));
+    const vehiclesCollection = collection(db, 'vehicles');
+    const querySnapshot = await getDocs(vehiclesCollection);
+    return querySnapshot.docs.map(doc => ({ id: doc.id }));
 }
 
 export async function fetchFeaturedVehicles(count = 4) {
     noStore();
-    return [...vehicles].sort((a, b) => b.price - a.price).slice(0, count);
+    const vehiclesCollection = collection(db, 'vehicles');
+    const q = query(vehiclesCollection, orderBy('price', 'desc'), limit(count));
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map(doc => ({
+        id: parseInt(doc.id, 10),
+        ...doc.data()
+    })) as Vehicle[];
 }
 
 export async function createVehicle(vehicleData: VehicleDataInput): Promise<Vehicle> {
     noStore();
-    const maxId = vehicles.reduce((max, v) => Math.max(max, v.id), 0);
-    const newVehicle: Vehicle = {
-        id: maxId + 1,
+    const vehiclesCollection = collection(db, 'vehicles');
+
+    // To create an auto-incrementing ID, we need to find the max ID first.
+    // This is not ideal in Firestore but works for this application's scale.
+    const allVehiclesSnapshot = await getDocs(query(vehiclesCollection, orderBy('id', 'desc'), limit(1)));
+    const maxId = allVehiclesSnapshot.empty ? 0 : allVehiclesSnapshot.docs[0].data().id;
+    const newId = maxId + 1;
+
+    const newVehicleData = {
+        id: newId,
         make: vehicleData.make || '',
         model: vehicleData.model || '',
         price: vehicleData.price || 0,
@@ -65,26 +98,34 @@ export async function createVehicle(vehicleData: VehicleDataInput): Promise<Vehi
         type: vehicleData.type || 'Sedan',
         imageUrl: vehicleData.imageUrl || '',
     };
-    vehicles.push(newVehicle);
-    return newVehicle;
+    
+    const docRef = doc(db, 'vehicles', newId.toString());
+    await setDoc(docRef, newVehicleData);
+
+    return { ...newVehicleData } as Vehicle;
 }
 
 export async function updateVehicle(id: string | number, vehicleData: VehicleDataInput): Promise<Vehicle> {
     noStore();
-    const vehicleId = typeof id === 'string' ? parseInt(id) : id;
-    const vehicleIndex = vehicles.findIndex(v => v.id === vehicleId);
-    if (vehicleIndex === -1) {
-        throw new Error("Vehicle not found");
-    }
-    const updatedVehicle = { ...vehicles[vehicleIndex], ...vehicleData };
-    vehicles[vehicleIndex] = updatedVehicle as Vehicle;
-    return updatedVehicle as Vehicle;
+    const vehicleId = typeof id === 'string' ? id : id.toString();
+    const vehicleDocRef = doc(db, 'vehicles', vehicleId);
+    
+    // Create an update object, ensuring `id` is not part of it.
+    const updateData: { [key: string]: any } = { ...vehicleData };
+    delete updateData.id;
+
+    await updateDoc(vehicleDocRef, updateData);
+
+    const updatedDoc = await getDoc(vehicleDocRef);
+    return { id: parseInt(updatedDoc.id, 10), ...updatedDoc.data() } as Vehicle;
 }
+
 
 export async function deleteVehicle(id: string | number): Promise<void> {
     noStore();
-    const vehicleId = typeof id === 'string' ? parseInt(id) : id;
-    vehicles = vehicles.filter(v => v.id !== vehicleId);
+    const vehicleId = typeof id === 'string' ? id : id.toString();
+    const vehicleDocRef = doc(db, 'vehicles', vehicleId);
+    await deleteDoc(vehicleDocRef);
 }
 
 
@@ -92,20 +133,24 @@ export async function deleteVehicle(id: string | number): Promise<void> {
 
 export async function fetchGalleryImages(): Promise<GalleryImage[]> {
     noStore();
-    return [...galleryImages];
+    const galleryCollection = collection(db, 'gallery');
+    const q = query(galleryCollection, orderBy('imageUrl'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    })) as GalleryImage[];
 }
 
 export async function addGalleryImage(imageData: Omit<GalleryImage, 'id'>): Promise<GalleryImage> {
     noStore();
-    const newImage: GalleryImage = {
-        id: `gallery-${Date.now()}-${Math.random()}`,
-        ...imageData,
-    };
-    galleryImages.push(newImage);
-    return newImage;
+    const galleryCollection = collection(db, 'gallery');
+    const docRef = await addDoc(galleryCollection, imageData);
+    return { id: docRef.id, ...imageData };
 }
 
 export async function deleteGalleryImage(id: string): Promise<void> {
     noStore();
-    galleryImages = galleryImages.filter(img => img.id !== id);
+    const imageDocRef = doc(db, 'gallery', id);
+    await deleteDoc(imageDocRef);
 }
