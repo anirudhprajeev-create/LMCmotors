@@ -32,7 +32,7 @@ import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { fetchGalleryImages, addGalleryImage, deleteGalleryImage } from '@/lib/data';
+import { fetchGalleryImages, addGalleryImage, deleteGalleryImage } from '@/src/lib/data';
 
 function GalleryImageForm({ onFormSubmit }: { onFormSubmit: () => void }) {
     const { toast } = useToast();
