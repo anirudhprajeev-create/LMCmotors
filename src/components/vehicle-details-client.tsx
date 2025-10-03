@@ -3,10 +3,6 @@
 import Image from 'next/image';
 import { useActionState } from 'react';
 
-type InquiryState = {
-  message?: string;
-};
-
 type PrebookErrors = {
   inGameName?: string[];
   discordId?: string[];
@@ -23,11 +19,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import type { Vehicle } from '@/lib/types';
-import { submitInquiry, prebookVehicle } from '@/lib/actions';
+import { prebookVehicle } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Send, CalendarCheck, Twitter, Facebook, Link as LinkIcon } from 'lucide-react';
+import { CalendarCheck, Twitter, Facebook, Link as LinkIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -41,36 +36,6 @@ type VehicleDetailsClientProps = {
 
 export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
     const { toast } = useToast();
-    
-  const [inquiryState, setInquiryState] = useState<InquiryState>({ message: "" });
-  const [inGameName, setInGameName] = useState("");
-  const [inGamePhoneNumber, setInGamePhoneNumber] = useState("");
-  const [message, setMessage] = useState("");
-
-  const handleInquirySubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("inGameName", inGameName);
-    formData.append("inGamePhoneNumber", inGamePhoneNumber);
-    formData.append("message", message);
-    formData.append("vehicle", vehicle.make + " " + vehicle.model);
-
-    const response = await submitInquiry(null, formData);
-    setInquiryState(response);
-
-    if (response.message?.startsWith("Success")) {
-      toast({
-        title: "Inquiry Sent!",
-        description: response.message,
-      });
-    } else if (response.message?.startsWith("Error")) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: response.message,
-      });
-    }
-  };
 
   const initialPrebookState: PrebookState = { message: "", errors: {} };
     const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
@@ -201,48 +166,6 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                 <Button variant="outline" size="icon" onClick={() => handleShare('copy')}><LinkIcon className="h-5 w-5"/></Button>
             </div>
         </div>
-      </div>
-      <div className="mt-8">
-        <Card>
-          <CardContent className="pt-6">
-            <h3 className="mb-4 text-lg font-medium">Inquire about this vehicle</h3>
-            <form onSubmit={handleInquirySubmit}>
-                <div className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="inGameName">Ingame Name</Label>
-                        <Input
-                          id="inGameName"
-                          name="inGameName"
-                          placeholder="Your Ingame Name"
-                          value={inGameName}
-                          onChange={(e) => setInGameName(e.target.value)}
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="inGamePhoneNumber">Ingame Phone Number</Label>
-                        <Input
-                          id="inGamePhoneNumber"
-                          name="inGamePhoneNumber"
-                          placeholder="Your Ingame Phone Number"
-                          value={inGamePhoneNumber}
-                          onChange={(e) => setInGamePhoneNumber(e.target.value)}
-                        />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="message">Message</Label>
-                        <Textarea
-                          id="message"
-                          name="message"
-                          placeholder="I'm interested in this vehicle..."
-                          value={message}
-                          onChange={(e) => setMessage(e.target.value)}
-                        />
-                    </div>
-                    <SubmitButton label="Send Inquiry" icon={<Send className="mr-2 h-4 w-4" />} />
-                </div>
-            </form>
-          </CardContent>
-        </Card>
       </div>
     </>
   );
