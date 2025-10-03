@@ -11,7 +11,8 @@ export async function submitInquiry(prevState: any, formData: FormData) {
   const inGamePhoneNumber = formData.get("inGamePhoneNumber") as string;
   const message = formData.get("message") as string;
   const vehicle = formData.get("vehicle") as string;
-  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  // const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+  const webhookUrl = "https://discord.com/api/webhooks/1422840600863965245/1z_IkFpLFQo1SHZEnl9mEgKMHDWuB5Xte7bDhi6PvKg6SOGtRi1Db3ZgdkQaTW0GlH1a";
 
   if (webhookUrl) {
     const discordMessage = {
