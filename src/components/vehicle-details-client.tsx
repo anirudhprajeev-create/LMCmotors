@@ -3,16 +3,8 @@
 import Image from 'next/image';
 import { useActionState } from 'react';
 
-type InquiryErrors = {
-  inGameName?: string[];
-  inGamePhoneNumber?: string[];
-  message?: string[];
-  vehicle?: string[];
-};
-
 type InquiryState = {
   message?: string;
-  errors?: InquiryErrors;
 };
 
 type PrebookErrors = {
@@ -215,17 +207,14 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                     <div className="space-y-2">
                         <Label htmlFor="inGameName">Ingame Name</Label>
                         <Input id="inGameName" name="inGameName" placeholder="Your Ingame Name" />
-                         {inquiryState.errors?.inGameName && <p className="text-sm text-destructive">{inquiryState.errors.inGameName[0]}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="inGamePhoneNumber">Ingame Phone Number</Label>
                         <Input id="inGamePhoneNumber" name="inGamePhoneNumber" placeholder="Your Ingame Phone Number" />
-                         {inquiryState.errors?.inGamePhoneNumber && <p className="text-sm text-destructive">{inquiryState.errors.inGamePhoneNumber[0]}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="message">Message</Label>
-                        <Textarea id="message" name="message" placeholder="I'm interested in this vehicle..." required />
-                         {inquiryState.errors?.message && <p className="text-sm text-destructive">{inquiryState.errors.message[0]}</p>}
+                        <Textarea id="message" name="message" placeholder="I'm interested in this vehicle..." />
                     </div>
                     <SubmitButton label="Send Inquiry" icon={<Send className="mr-2 h-4 w-4" />} />
                 </div>

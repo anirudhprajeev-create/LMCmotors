@@ -6,29 +6,11 @@ import 'dotenv/config';
 import { createSession, deleteSession } from "./session";
 import { redirect } from 'next/navigation'
 
-const inquirySchema = z.object({
-  inGameName: z.string().optional(),
-  inGamePhoneNumber: z.string().optional(),
-  message: z.string().optional(),
-  vehicle: z.string(),
-});
-
 export async function submitInquiry(prevState: any, formData: FormData) {
-  const validatedFields = inquirySchema.safeParse({
-    inGameName: formData.get("inGameName"),
-    inGamePhoneNumber: formData.get("inGamePhoneNumber") || undefined,
-    message: formData.get("message"),
-    vehicle: formData.get("vehicle"),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: "Error: Please check the form fields.",
-    };
-  }
-
-  const { inGameName, inGamePhoneNumber, message, vehicle } = validatedFields.data;
+  const inGameName = formData.get("inGameName") as string;
+  const inGamePhoneNumber = formData.get("inGamePhoneNumber") as string;
+  const message = formData.get("message") as string;
+  const vehicle = formData.get("vehicle") as string;
   const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
 
   if (webhookUrl) {
