@@ -10,13 +10,13 @@ const inquirySchema = z.object({
   inGameName: z.string().optional(),
   inGamePhoneNumber: z.string().optional(),
   message: z.string().optional(),
-  vehicle: z.string().optional(),
+  vehicle: z.string(),
 });
 
 export async function submitInquiry(prevState: any, formData: FormData) {
   const validatedFields = inquirySchema.safeParse({
     inGameName: formData.get("inGameName"),
-    inGamePhoneNumber: formData.get("inGamePhoneNumber"),
+    inGamePhoneNumber: formData.get("inGamePhoneNumber") || undefined,
     message: formData.get("message"),
     vehicle: formData.get("vehicle"),
   });

@@ -214,7 +214,7 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="inGameName">Ingame Name</Label>
-                        <Input id="inGameName" name="inGameName" placeholder="Your Ingame Name" required />
+                        <Input id="inGameName" name="inGameName" placeholder="Your Ingame Name" />
                          {inquiryState.errors?.inGameName && <p className="text-sm text-destructive">{inquiryState.errors.inGameName[0]}</p>}
                     </div>
                     <div className="space-y-2">
