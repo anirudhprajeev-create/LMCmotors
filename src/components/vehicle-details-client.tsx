@@ -42,34 +42,39 @@ type VehicleDetailsClientProps = {
 export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
     const { toast } = useToast();
     
-  const initialInquiryState: InquiryState = { message: "", errors: {} };
-    const [inquiryState, inquiryDispatch] = useActionState(submitInquiry as any, initialInquiryState);
+  const [inquiryState, setInquiryState] = useState<InquiryState>({ message: "" });
+  const [inGameName, setInGameName] = useState("");
+  const [inGamePhoneNumber, setInGamePhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
 
-    // Debug: Log validation errors on inquiryState change
-    useEffect(() => {
-      if (inquiryState.errors) {
-        console.log("Inquiry form validation errors:", inquiryState.errors);
-      }
-    }, [inquiryState.errors]);
+  const handleInquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("inGameName", inGameName);
+    formData.append("inGamePhoneNumber", inGamePhoneNumber);
+    formData.append("message", message);
+    formData.append("vehicle", vehicle.make + " " + vehicle.model);
+
+    const response = await submitInquiry(null, formData);
+    setInquiryState(response);
+
+    if (response.message?.startsWith("Success")) {
+      toast({
+        title: "Inquiry Sent!",
+        description: response.message,
+      });
+    } else if (response.message?.startsWith("Error")) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: response.message,
+      });
+    }
+  };
 
   const initialPrebookState: PrebookState = { message: "", errors: {} };
     const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
     const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
-
-    useEffect(() => {
-        if (inquiryState.message?.startsWith('Success')) {
-          toast({
-            title: 'Inquiry Sent!',
-            description: inquiryState.message,
-          });
-        } else if (inquiryState.message?.startsWith('Error')) {
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: inquiryState.message,
-          });
-        }
-    }, [inquiryState, toast]);
 
     useEffect(() => {
         if (prebookState.message?.startsWith('Success')) {
@@ -201,20 +206,37 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
         <Card>
           <CardContent className="pt-6">
             <h3 className="mb-4 text-lg font-medium">Inquire about this vehicle</h3>
-            <form action={inquiryDispatch}>
-                <input type="hidden" name="vehicle" value={`${vehicle.make} ${vehicle.model}`} />
+            <form onSubmit={handleInquirySubmit}>
                 <div className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="inGameName">Ingame Name</Label>
-                        <Input id="inGameName" name="inGameName" placeholder="Your Ingame Name" />
+                        <Input
+                          id="inGameName"
+                          name="inGameName"
+                          placeholder="Your Ingame Name"
+                          value={inGameName}
+                          onChange={(e) => setInGameName(e.target.value)}
+                        />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="inGamePhoneNumber">Ingame Phone Number</Label>
-                        <Input id="inGamePhoneNumber" name="inGamePhoneNumber" placeholder="Your Ingame Phone Number" />
+                        <Input
+                          id="inGamePhoneNumber"
+                          name="inGamePhoneNumber"
+                          placeholder="Your Ingame Phone Number"
+                          value={inGamePhoneNumber}
+                          onChange={(e) => setInGamePhoneNumber(e.target.value)}
+                        />
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="message">Message</Label>
-                        <Textarea id="message" name="message" placeholder="I'm interested in this vehicle..." />
+                        <Textarea
+                          id="message"
+                          name="message"
+                          placeholder="I'm interested in this vehicle..."
+                          value={message}
+                          onChange={(e) => setMessage(e.target.value)}
+                        />
                     </div>
                     <SubmitButton label="Send Inquiry" icon={<Send className="mr-2 h-4 w-4" />} />
                 </div>
