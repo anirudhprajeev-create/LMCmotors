@@ -2,6 +2,29 @@
 'use client';
 import Image from 'next/image';
 import { useActionState } from 'react';
+
+type InquiryErrors = {
+  inGameName?: string[];
+  inGamePhoneNumber?: string[];
+  message?: string[];
+};
+
+type InquiryState = {
+  message?: string;
+  errors?: InquiryErrors;
+};
+
+type PrebookErrors = {
+  inGameName?: string[];
+  discordId?: string[];
+  inGameNumber?: string[];
+  pickupTime?: string[];
+};
+
+type PrebookState = {
+  message?: string;
+  errors?: PrebookErrors;
+};
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,11 +49,11 @@ type VehicleDetailsClientProps = {
 export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
     const { toast } = useToast();
     
-  const initialInquiryState = { message: "", errors: {} };
-    const [inquiryState, inquiryDispatch] = useActionState(submitInquiry, initialInquiryState);
+  const initialInquiryState: InquiryState = { message: "", errors: {} };
+    const [inquiryState, inquiryDispatch] = useActionState<InquiryState>(submitInquiry, initialInquiryState);
 
-  const initialPrebookState = { message: "", errors: {} };
-    const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
+  const initialPrebookState: PrebookState = { message: "", errors: {} };
+    const [prebookState, prebookDispatch] = useActionState<PrebookState>(prebookVehicle, initialPrebookState);
     const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
 
     useEffect(() => {
@@ -182,14 +205,14 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                 <input type="hidden" name="vehicle" value={`${vehicle.make} ${vehicle.model}`} />
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input id="name" name="name" placeholder="Your Name" required />
-                         {inquiryState.errors?.name && <p className="text-sm text-destructive">{inquiryState.errors.name[0]}</p>}
+                        <Label htmlFor="inGameName">Ingame Name</Label>
+                        <Input id="inGameName" name="inGameName" placeholder="Your Ingame Name" required />
+                         {inquiryState.errors?.inGameName && <p className="text-sm text-destructive">{inquiryState.errors.inGameName[0]}</p>}
                     </div>
-                     <div className="space-y-2">
-                        <Label htmlFor="email">Email</Label>
-                        <Input id="email" name="email" type="email" placeholder="Your Email" required />
-                         {inquiryState.errors?.email && <p className="text-sm text-destructive">{inquiryState.errors.email[0]}</p>}
+                    <div className="space-y-2">
+                        <Label htmlFor="inGamePhoneNumber">Ingame Phone Number</Label>
+                        <Input id="inGamePhoneNumber" name="inGamePhoneNumber" placeholder="Your Ingame Phone Number" />
+                         {inquiryState.errors?.inGamePhoneNumber && <p className="text-sm text-destructive">{inquiryState.errors.inGamePhoneNumber[0]}</p>}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="message">Message</Label>
