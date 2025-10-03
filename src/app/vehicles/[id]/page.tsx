@@ -1,35 +1,35 @@
+
 import { notFound } from 'next/navigation';
-import { adminDb } from '@/lib/firebase-admin';
 import VehicleDetailsClient from '@/components/vehicle-details-client';
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
+import { fetchVehicleById, fetchAllVehicleIds } from '../../../../lib/data-admin';
+import type { Vehicle } from '../../../lib/types';
+
 
 type Props = {
-    params: { id: string }
-}
+  params: { id: string }
+};
 
-  const docRef = adminDb.collection('vehicles').doc(params.id);
-  const docSnap = await docRef.get();
-  const vehicle = docSnap.exists ? { id: docSnap.id, ...docSnap.data() } : null;
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const vehicle: Vehicle | null = await fetchVehicleById(params.id);
   if (!vehicle) {
     return {
-      title: 'Vehicle Not Found'
-    }
+      title: 'Vehicle Not Found',
+    };
   }
-
   return {
     title: `${vehicle.make} ${vehicle.model} | LMC MotorShowcase`,
     description: vehicle.description,
-  }
+  };
 }
 
-  const docRef = adminDb.collection('vehicles').doc(params.id);
-  const docSnap = await docRef.get();
-  const vehicle = docSnap.exists ? { id: docSnap.id, ...docSnap.data() } : null;
 
+export default async function VehiclePage({ params }: Props) {
+  const vehicle: Vehicle | null = await fetchVehicleById(params.id);
   if (!vehicle) {
     notFound();
   }
-
   return (
     <div className="container mx-auto px-4 py-12">
       <VehicleDetailsClient vehicle={vehicle} />
@@ -37,7 +37,8 @@ type Props = {
   );
 }
 
-    const snapshot = await adminDb.collection('vehicles').get();
-    return snapshot.docs.map((doc) => ({
-      id: doc.id,
-    }));
+
+export async function generateStaticParams() {
+  const vehicles: Vehicle[] = await fetchAllVehicleIds();
+  return vehicles.map((vehicle) => ({ id: vehicle.id }));
+}
