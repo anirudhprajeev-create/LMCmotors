@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { KeyRound } from 'lucide-react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { app } from '../../../../lib/firebase';
+import { app } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
