@@ -1,4 +1,3 @@
-
 import { notFound } from 'next/navigation';
 import VehicleDetailsClient from '@/components/vehicle-details-client';
 import type { Metadata } from 'next';
@@ -12,16 +11,23 @@ type Props = {
 
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const vehicle: Vehicle | null = await fetchVehicleById(params.id);
-  if (!vehicle) {
+  try {
+    const vehicle: Vehicle | null = await fetchVehicleById(params.id);
+    if (!vehicle) {
+      return {
+        title: 'Vehicle Not Found',
+      };
+    }
     return {
-      title: 'Vehicle Not Found',
+      title: `${vehicle.make} ${vehicle.model} | LMC MotorShowcase`,
+      description: vehicle.description,
+    };
+  } catch (error) {
+    console.error('Error generating metadata:', error);
+    return {
+      title: 'Vehicle | LMC MotorShowcase',
     };
   }
-  return {
-    title: `${vehicle.make} ${vehicle.model} | LMC MotorShowcase`,
-    description: vehicle.description,
-  };
 }
 
 
