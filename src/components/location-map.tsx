@@ -24,7 +24,7 @@ export default function LocationMap() {
         </div>
         <div className="relative min-h-[300px] w-full">
            <Image
-                src="https://cdn.discordapp.com/attachments/1083757528749453394/1422866358567178300/Generated_Image_October_01_2025_-_1_55PM.png?ex=68de3b0f&is=68dce98f&hm=db541a2b180525759efe803c789ba39049883bda6a70b2822f3744cdb590b15d&"
+                src="https://cdn.discordapp.com/attachments/1083757528749453394/1422866358567178300/Generated_Image_October_01_2025_-_1_55PM.png?ex=68e0354f&is=68dee3cf&hm=99a19a5b34b4e4424d6b1d06970c33885c39923f4160a8e3ef267ba1ee15879b&"
                 alt="Map showing dealership location"
                 fill
                 className="object-cover"
