@@ -30,10 +30,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import type { Vehicle } from '@/lib/types';
-import { prebookVehicle } from '@/lib/actions';
+import { submitInquiry, prebookVehicle } from '@/lib/actions';
 import { useToast } from '@/hooks/use-toast';
-import { CalendarCheck, Twitter, Facebook, Link as LinkIcon } from 'lucide-react';
+import { Send, CalendarCheck, Twitter, Facebook, Link as LinkIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter, DialogClose } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -47,6 +48,60 @@ type VehicleDetailsClientProps = {
 
 export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
     const { toast } = useToast();
+
+  const [inquiryState, setInquiryState] = useState<InquiryState>({ message: "" });
+  const [inGameName, setInGameName] = useState("");
+  const [inGamePhoneNumber, setInGamePhoneNumber] = useState("");
+  const [inquiryMessage, setInquiryMessage] = useState("");
+
+  const handleInquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic client-side validation
+    if (!inGameName.trim()) {
+      setInquiryState({ message: "Please enter your ingame name." });
+      return;
+    }
+    if (!inquiryMessage.trim()) {
+      setInquiryState({ message: "Please enter a message." });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("inGameName", inGameName.trim());
+    formData.append("inGamePhoneNumber", inGamePhoneNumber.trim());
+    formData.append("message", inquiryMessage.trim());
+    formData.append("vehicle", `${vehicle.make} ${vehicle.model}`);
+
+    try {
+      const response = await submitInquiry(null, formData);
+      setInquiryState(response);
+
+      if (response.message?.startsWith("Success")) {
+        toast({
+          title: "Inquiry Sent!",
+          description: response.message,
+        });
+        // Clear form on success
+        setInGameName("");
+        setInGamePhoneNumber("");
+        setInquiryMessage("");
+      } else if (response.message?.startsWith("Error")) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: response.message,
+        });
+      }
+    } catch (error) {
+      setInquiryState({ message: "An unexpected error occurred. Please try again." });
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+      });
+    }
+  };
 
   const initialPrebookState: PrebookState = { message: "", errors: {} };
     const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
@@ -177,6 +232,55 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
                 <Button variant="outline" size="icon" onClick={() => handleShare('copy')}><LinkIcon className="h-5 w-5"/></Button>
             </div>
         </div>
+      </div>
+      <div className="mt-8">
+        <Card>
+          <CardContent className="pt-6">
+            <h3 className="mb-4 text-lg font-medium">Inquire about this vehicle</h3>
+            <form onSubmit={handleInquirySubmit}>
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="inGameName">Ingame Name *</Label>
+                  <Input
+                    id="inGameName"
+                    name="inGameName"
+                    placeholder="Your Ingame Name"
+                    value={inGameName}
+                    onChange={(e) => setInGameName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="inGamePhoneNumber">Ingame Phone Number</Label>
+                  <Input
+                    id="inGamePhoneNumber"
+                    name="inGamePhoneNumber"
+                    placeholder="Your Ingame Phone Number"
+                    value={inGamePhoneNumber}
+                    onChange={(e) => setInGamePhoneNumber(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message">Message *</Label>
+                  <Textarea
+                    id="message"
+                    name="message"
+                    placeholder="I'm interested in this vehicle..."
+                    value={inquiryMessage}
+                    onChange={(e) => setInquiryMessage(e.target.value)}
+                    required
+                  />
+                </div>
+                {inquiryState.message && (
+                  <p className={`text-sm ${inquiryState.message.startsWith("Success") ? "text-green-600" : "text-destructive"}`}>
+                    {inquiryState.message}
+                  </p>
+                )}
+                <SubmitButton label="Send Inquiry" icon={<Send className="mr-2 h-4 w-4" />} />
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </>
   );
