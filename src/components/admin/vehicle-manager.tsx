@@ -107,7 +107,7 @@ function VehicleForm({ vehicle, onFormSubmit }: { vehicle?: Vehicle | null, onFo
                     {/* Form fields */}
                     <div className="space-y-2"><Label>Make</Label><Input name="make" defaultValue={vehicle?.make} required /></div>
                     <div className="space-y-2"><Label>Model</Label><Input name="model" defaultValue={vehicle?.model} required /></div>
-                    <div className="space-y-2"><Label>Price</Label><Input name="price" type="number" defaultValue={vehicle?.price} required /></div>
+                    <div className="space-y-2"><Label>Price</Label><Input name="price" type="number" defaultValue={vehicle?.price?.toString()} required /></div>
                     <div className="space-y-2">
                         <Label>Type</Label>
                         <Select name="type" defaultValue={vehicle?.type} required>

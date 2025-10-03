@@ -2,7 +2,7 @@
 export type VehicleType = 'Sedan' | 'Sports' | 'SUV' | 'Coupe' | 'Off-road' | 'Supercars' | 'Limited' | 'S' | 'A' | 'B' | 'C' | 'In-game' | 'Muscle';
 
 export type Vehicle = {
-  id: string;
+  id: number;
     make: string;
     model: string;
     price: number;
