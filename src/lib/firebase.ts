@@ -24,4 +24,4 @@ if (!getApps().length) {
 
 const db = getFirestore(app);
 
-export { db };
+export { app, db };

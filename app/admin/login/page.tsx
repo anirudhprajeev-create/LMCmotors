@@ -19,7 +19,7 @@ import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopu
             setError(err.message || 'Google login failed.');
         }
     };
-import { app } from '@/lib/firebase';
+import { app } from '@/src/lib/firebase';
 import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
