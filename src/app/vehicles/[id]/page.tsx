@@ -12,7 +12,8 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
-    const vehicle: Vehicle | null = await fetchVehicleById(params.id);
+    const { id } = await params;
+    const vehicle: Vehicle | null = await fetchVehicleById(id);
     if (!vehicle) {
       return {
         title: 'Vehicle Not Found',
@@ -32,7 +33,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 
 export default async function VehiclePage({ params }: Props) {
-  const vehicle: Vehicle | null = await fetchVehicleById(params.id);
+  const { id } = await params;
+  const vehicle: Vehicle | null = await fetchVehicleById(id);
   if (!vehicle) {
     notFound();
   }
