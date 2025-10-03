@@ -3,6 +3,17 @@
 import Image from 'next/image';
 import { useActionState } from 'react';
 
+type InquiryErrors = {
+  inGameName?: string[];
+  inGamePhoneNumber?: string[];
+  message?: string[];
+};
+
+type InquiryState = {
+  message?: string;
+  errors?: InquiryErrors;
+};
+
 type PrebookErrors = {
   inGameName?: string[];
   discordId?: string[];
