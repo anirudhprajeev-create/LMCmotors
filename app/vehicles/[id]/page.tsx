@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { fetchVehicleById, fetchAllVehicleIds } from '@/lib/data';
+import { fetchVehicleById, fetchAllVehicleIds } from '../../../lib/data-admin';
 import VehicleDetailsClient from '@/components/vehicle-details-client';
 import type { Metadata } from 'next'
 
