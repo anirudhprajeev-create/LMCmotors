@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { fetchVehicleById, fetchAllVehicleIds } from '@/lib/data';
+import { adminDb } from '@/lib/firebase-admin';
 import VehicleDetailsClient from '@/components/vehicle-details-client';
 import type { Metadata } from 'next'
 
@@ -7,8 +7,9 @@ type Props = {
     params: { id: string }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const vehicle = await fetchVehicleById(params.id);
+  const docRef = adminDb.collection('vehicles').doc(params.id);
+  const docSnap = await docRef.get();
+  const vehicle = docSnap.exists ? { id: docSnap.id, ...docSnap.data() } : null;
   if (!vehicle) {
     return {
       title: 'Vehicle Not Found'
@@ -21,8 +22,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function VehiclePage({ params }: { params: { id: string } }) {
-  const vehicle = await fetchVehicleById(params.id);
+  const docRef = adminDb.collection('vehicles').doc(params.id);
+  const docSnap = await docRef.get();
+  const vehicle = docSnap.exists ? { id: docSnap.id, ...docSnap.data() } : null;
 
   if (!vehicle) {
     notFound();
@@ -35,9 +37,7 @@ export default async function VehiclePage({ params }: { params: { id: string } }
   );
 }
 
-export async function generateStaticParams() {
-    const ids = await fetchAllVehicleIds();
-    return ids.map((item) => ({
-      id: item.id.toString(),
-    }))
-}
+    const snapshot = await adminDb.collection('vehicles').get();
+    return snapshot.docs.map((doc) => ({
+      id: doc.id,
+    }));
