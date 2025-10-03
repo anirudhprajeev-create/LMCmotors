@@ -18,20 +18,34 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { timeSlots, formatPrice } from '@/lib/utils';
 import { SubmitButton } from './submit-button';
 
+
+type InquiryErrors = {
+  name?: string[];
+  email?: string[];
+  message?: string[];
+};
+
+type PrebookErrors = {
+  inGameName?: string[];
+  discordId?: string[];
+  inGameNumber?: string[];
+  pickupTime?: string[];
+};
+
 type VehicleDetailsClientProps = {
   vehicle: Vehicle;
 };
 
 
-export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
-    const { toast } = useToast();
-    
-    const initialInquiryState = { message: null, errors: {} };
-    const [inquiryState, inquiryDispatch] = useActionState(submitInquiry, initialInquiryState);
 
-    const initialPrebookState = { message: null, errors: {} };
-    const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
-    const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
+  const { toast } = useToast();
+
+  const initialInquiryState: { message: string | null; errors: InquiryErrors } = { message: null, errors: {} };
+  const [inquiryState, inquiryDispatch] = useActionState(submitInquiry, initialInquiryState);
+
+  const initialPrebookState: { message: string | null; errors: PrebookErrors } = { message: null, errors: {} };
+  const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
+  const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
 
     useEffect(() => {
         if (inquiryState.message?.startsWith('Success')) {
