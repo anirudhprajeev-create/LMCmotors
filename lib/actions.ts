@@ -7,10 +7,10 @@ import { createSession, deleteSession } from "./session";
 import { redirect } from 'next/navigation'
 
 const inquirySchema = z.object({
-  inGameName: z.string().min(2, "Ingame name must be at least 2 characters."),
-  inGamePhoneNumber: z.string().min(5, "Ingame phone number must be at least 5 characters.").optional(),
-  message: z.string().min(10, "Message must be at least 10 characters."),
-  vehicle: z.string(),
+  inGameName: z.string().optional(),
+  inGamePhoneNumber: z.string().optional(),
+  message: z.string().optional(),
+  vehicle: z.string().optional(),
 });
 
 export async function submitInquiry(prevState: any, formData: FormData) {

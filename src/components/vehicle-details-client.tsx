@@ -53,6 +53,13 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
   const initialInquiryState: InquiryState = { message: "", errors: {} };
     const [inquiryState, inquiryDispatch] = useActionState(submitInquiry as any, initialInquiryState);
 
+    // Debug: Log validation errors on inquiryState change
+    useEffect(() => {
+      if (inquiryState.errors) {
+        console.log("Inquiry form validation errors:", inquiryState.errors);
+      }
+    }, [inquiryState.errors]);
+
   const initialPrebookState: PrebookState = { message: "", errors: {} };
     const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
     const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
