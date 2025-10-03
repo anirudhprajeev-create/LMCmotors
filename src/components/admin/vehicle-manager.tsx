@@ -42,7 +42,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { fetchVehicles, createVehicle, updateVehicle, deleteVehicle } from '@/lib/data';
 
-const vehicleTypes: VehicleType[] = ['Sedan', 'Sports', 'SUV', 'Coupe', 'Off-road', 'Supercars', 'Limited', 'S', 'A', 'B', 'C', 'In-game'];
+const vehicleTypes: VehicleType[] = ['Sedan', 'Sports', 'SUV', 'Coupe', 'Off-road', 'Supercars', 'Limited', 'S', 'A', 'B', 'C', 'In-game', 'Muscle'];
 
 function VehicleForm({ vehicle, onFormSubmit }: { vehicle?: Vehicle | null, onFormSubmit: () => void }) {
     const { toast } = useToast();
@@ -62,10 +62,15 @@ function VehicleForm({ vehicle, onFormSubmit }: { vehicle?: Vehicle | null, onFo
             make: formData.get('make'),
             model: formData.get('model'),
             price: Number(formData.get('price')),
-            type: formData.get('type'),
+            type: formData.get('type') as VehicleType,
             description: formData.get('description'),
             imageUrl: imageUrl,
         };
+
+        // Fix: Ensure price is a number, not string
+        if (typeof data.price === 'string') {
+            data.price = parseFloat(data.price);
+        }
         
         try {
             if (vehicle) {
