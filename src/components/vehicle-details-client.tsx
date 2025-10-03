@@ -26,10 +26,10 @@ type VehicleDetailsClientProps = {
 export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientProps) {
     const { toast } = useToast();
     
-    const initialInquiryState = { message: null, errors: {} };
+  const initialInquiryState = { message: "", errors: {} };
     const [inquiryState, inquiryDispatch] = useActionState(submitInquiry, initialInquiryState);
 
-    const initialPrebookState = { message: null, errors: {} };
+  const initialPrebookState = { message: "", errors: {} };
     const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
     const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
 
