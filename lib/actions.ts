@@ -7,16 +7,16 @@ import { createSession, deleteSession } from "./session";
 import { redirect } from 'next/navigation'
 
 const inquirySchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email address."),
+  inGameName: z.string().min(2, "Ingame name must be at least 2 characters."),
+  inGamePhoneNumber: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters."),
   vehicle: z.string(),
 });
 
 export async function submitInquiry(prevState: any, formData: FormData) {
   const validatedFields = inquirySchema.safeParse({
-    name: formData.get("name"),
-    email: formData.get("email"),
+    inGameName: formData.get("inGameName"),
+    inGamePhoneNumber: formData.get("inGamePhoneNumber"),
     message: formData.get("message"),
     vehicle: formData.get("vehicle"),
   });
@@ -27,9 +27,50 @@ export async function submitInquiry(prevState: any, formData: FormData) {
       message: "Error: Please check the form fields.",
     };
   }
-  
-  // In a real application, you would send an email, save to a database, etc.
-  console.log("New Inquiry Received:", validatedFields.data);
+
+  const { inGameName, inGamePhoneNumber, message, vehicle } = validatedFields.data;
+  const webhookUrl = process.env.DISCORD_WEBHOOK_URL;
+
+  if (webhookUrl) {
+    const discordMessage = {
+      embeds: [{
+        title: "New Vehicle Inquiry! 🚗",
+        color: 5814783,
+        fields: [
+          { name: "Vehicle", value: vehicle, inline: false },
+          { name: "Ingame Name", value: inGameName, inline: true },
+          { name: "Ingame Phone Number", value: inGamePhoneNumber || 'Not Provided', inline: true },
+          { name: "Message", value: message, inline: false },
+        ],
+        timestamp: new Date().toISOString(),
+        footer: {
+          text: "LMC Motors Inquiry System"
+        }
+      }]
+    };
+
+    try {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(discordMessage),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Discord webhook failed:", response.status, errorText);
+        // We don't want to block the user flow if Discord fails, so we won't return an error message here
+      }
+
+    } catch (error) {
+      console.error("Failed to send Discord notification:", error);
+      // We don't want to block the user flow if Discord fails.
+    }
+  } else {
+    console.warn("DISCORD_WEBHOOK_URL not set. Skipping notification.");
+  }
 
   return {
     message: "Success! Your inquiry has been sent.",

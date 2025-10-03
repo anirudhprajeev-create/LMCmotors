@@ -7,6 +7,7 @@ type InquiryErrors = {
   inGameName?: string[];
   inGamePhoneNumber?: string[];
   message?: string[];
+  vehicle?: string[];
 };
 
 type InquiryState = {
@@ -50,10 +51,10 @@ export default function VehicleDetailsClient({ vehicle }: VehicleDetailsClientPr
     const { toast } = useToast();
     
   const initialInquiryState: InquiryState = { message: "", errors: {} };
-    const [inquiryState, inquiryDispatch] = useActionState<InquiryState>(submitInquiry, initialInquiryState);
+    const [inquiryState, inquiryDispatch] = useActionState(submitInquiry as any, initialInquiryState);
 
   const initialPrebookState: PrebookState = { message: "", errors: {} };
-    const [prebookState, prebookDispatch] = useActionState<PrebookState>(prebookVehicle, initialPrebookState);
+    const [prebookState, prebookDispatch] = useActionState(prebookVehicle, initialPrebookState);
     const [isPrebookDialogOpen, setIsPrebookDialogOpen] = useState(false);
 
     useEffect(() => {
