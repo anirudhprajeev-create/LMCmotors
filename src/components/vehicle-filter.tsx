@@ -9,7 +9,7 @@ import { Search } from 'lucide-react';
 import type { VehicleType } from '@/lib/types';
 import { ScrollArea } from './ui/scroll-area';
 
-const vehicleTypes: VehicleType[] = ['Sedan', 'Sports', 'SUV', 'Coupe', 'Off-road', 'Supercars', 'Limited', 'S', 'A', 'B', 'C', 'In-game'];
+const vehicleTypes: VehicleType[] = ['Sedan', 'Sports', 'SUV', 'Coupe', 'Off-road', 'Supercars', 'Limited', 'S', 'A', 'B', 'C', 'In-game', 'Muscle'];
 
 const priceRanges = [
     { value: 'all', label: 'Show All' },
