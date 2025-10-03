@@ -40,7 +40,7 @@ import { Label } from '../ui/label';
 import { Textarea } from '../ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
-import { fetchVehicles, createVehicle, updateVehicle, deleteVehicle } from '@/src/lib/data';
+import { fetchVehicles, createVehicle, updateVehicle, deleteVehicle } from '@/lib/data';
 
 const vehicleTypes: VehicleType[] = ['Sedan', 'Sports', 'SUV', 'Coupe', 'Off-road', 'Supercars', 'Limited', 'S', 'A', 'B', 'C', 'In-game'];
 
